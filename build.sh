@@ -39,7 +39,9 @@ SUPPORT="$HOME/Library/Application Support/EK Backstage"
 mkdir -p "$SUPPORT"
 cat > "$SUPPORT/Mettre à jour EK Backstage.command" <<'CMD'
 #!/bin/bash
-curl -fsSL https://raw.githubusercontent.com/Pascal-Prod/ek-backstage/main/install.sh | bash
+# On demande le numéro de la dernière version pour contourner le cache de GitHub.
+SHA=$(curl -fsSL -H "Accept: application/vnd.github.sha" https://api.github.com/repos/Pascal-Prod/ek-backstage/commits/main || echo main)
+curl -fsSL "https://raw.githubusercontent.com/Pascal-Prod/ek-backstage/$SHA/install.sh" | bash -s -- --ref "$SHA"
 echo
 read -n 1 -s -r -p "Appuie sur une touche pour fermer cette fenêtre."
 CMD

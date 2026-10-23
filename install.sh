@@ -9,6 +9,13 @@ set -euo pipefail
 
 REPO="Pascal-Prod/ek-backstage"
 
+# --ref <version> : version précise à installer (utilisé par le bouton de mise à jour).
+REF="main"
+if [ "${1:-}" = "--ref" ]; then
+    REF="$2"
+    shift 2
+fi
+
 if ! xcode-select -p >/dev/null 2>&1; then
     echo "Les outils de développement Apple sont nécessaires. Une fenêtre va s'ouvrir :"
     echo "clique sur « Installer », attends la fin, puis relance cette commande."
@@ -21,9 +28,9 @@ TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
 echo "⬇️  Téléchargement de la dernière version…"
-curl -fsSL "https://github.com/$REPO/archive/refs/heads/main.zip" -o "$TMP/ek-backstage.zip"
+curl -fsSL "https://github.com/$REPO/archive/$REF.zip" -o "$TMP/ek-backstage.zip"
 unzip -q "$TMP/ek-backstage.zip" -d "$TMP"
-SRC="$TMP/ek-backstage-main"
+SRC=$(find "$TMP" -mindepth 1 -maxdepth 1 -type d | head -1)
 
 # Ancien nom de l'app (« Souffleur ») : on reprend ses réglages (code secret, photos).
 OLD_SUPPORT="$HOME/Library/Application Support/Souffleur"
