@@ -16,6 +16,7 @@ if ! xcode-select -p >/dev/null 2>&1; then
     exit 1
 fi
 
+cd "$HOME"
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
@@ -23,6 +24,13 @@ echo "⬇️  Téléchargement de la dernière version…"
 curl -fsSL "https://github.com/$REPO/archive/refs/heads/main.zip" -o "$TMP/ek-backstage.zip"
 unzip -q "$TMP/ek-backstage.zip" -d "$TMP"
 SRC="$TMP/ek-backstage-main"
+
+# Ancien nom de l'app (« Souffleur ») : on reprend ses réglages (code secret, photos).
+OLD_SUPPORT="$HOME/Library/Application Support/Souffleur"
+NEW_SUPPORT="$HOME/Library/Application Support/EK Backstage"
+if [ -d "$OLD_SUPPORT" ] && [ ! -d "$NEW_SUPPORT" ]; then
+    mv "$OLD_SUPPORT" "$NEW_SUPPORT"
+fi
 
 if [ $# -ge 2 ]; then
     bash "$SRC/configure.sh" "$1" "$2"
