@@ -26,7 +26,7 @@ curl -fsSL https://raw.githubusercontent.com/Pascal-Prod/ek-backstage/main/insta
 (`Pascal`, `Ema` ou `Charlotte`.) Le script télécharge la dernière version, l'installe dans `~/Applications` et la lance. S'il manque les outils de développement Apple, une fenêtre propose de les installer : relancer la commande ensuite.
 
 Puis :
-- **Photos de profil** : clic droit sur l'icône → **Photos de profil…**, déposer une photo par personne nommée avec le prénom (`ema.jpg`, `pascal.jpg`, `charlotte.jpg` ; `.png` ou `.heic` acceptés), idéalement carrée, visage centré.
+- **Photos de profil** : celles d'Ema, Pascal et Charlotte sont incluses dans l'app. Pour en remplacer une sur un Mac : clic droit sur l'icône → **Photos de profil…**, déposer une photo nommée avec le prénom (`ema.jpg`, `pascal.jpg`, `charlotte.jpg`).
 - **Lancement automatique** : Réglages Système → Général → Ouverture → ajouter `EK Backstage` (dossier Applications du dossier personnel).
 
 ## Mise à jour

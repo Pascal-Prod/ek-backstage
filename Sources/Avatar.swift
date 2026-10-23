@@ -1,8 +1,9 @@
 import AppKit
 import SwiftUI
 
-/// Photos de profil, lues dans ~/Library/Application Support/EK Backstage/avatars/<prénom>.jpg
-/// (ou .jpeg, .png, .heic). Sans photo : un rond avec l'initiale.
+/// Photos de profil : celles incluses dans l'app (Resources/avatars/<prénom>.jpg),
+/// remplaçables localement dans ~/Library/Application Support/EK Backstage/avatars/.
+/// Sans photo : un rond avec l'initiale.
 enum AvatarStore {
     static var folder: URL {
         Config.fileURL.deletingLastPathComponent().appendingPathComponent("avatars")
@@ -13,11 +14,14 @@ enum AvatarStore {
     static func image(for name: String) -> NSImage? {
         let key = slug(name)
         if let cached = cache[key] { return cached }
-        for ext in ["jpg", "jpeg", "png", "heic"] {
-            let url = folder.appendingPathComponent("\(key).\(ext)")
-            if let image = NSImage(contentsOf: url) {
-                cache[key] = image
-                return image
+        let bundled = Bundle.main.resourceURL?.appendingPathComponent("avatars")
+        for directory in [folder, bundled].compactMap({ $0 }) {
+            for ext in ["jpg", "jpeg", "png", "heic"] {
+                let url = directory.appendingPathComponent("\(key).\(ext)")
+                if let image = NSImage(contentsOf: url) {
+                    cache[key] = image
+                    return image
+                }
             }
         }
         return nil

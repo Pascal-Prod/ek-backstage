@@ -13,7 +13,7 @@ xcrun --sdk macosx swiftc -O \
     Sources/*.swift
 cp Info.plist "$APP/Contents/Info.plist"
 mkdir -p "$APP/Contents/Resources"
-cp Resources/* "$APP/Contents/Resources/"
+cp -R Resources/. "$APP/Contents/Resources/"
 codesign --force --sign - "$APP"
 
 # Ancien nom de l'app (« Souffleur ») : on la retire et on reprend ses réglages.
